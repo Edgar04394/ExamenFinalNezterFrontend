@@ -1,0 +1,63 @@
+.encabezado {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  padding: 1rem;
+}
+
+.encabezado-inner {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  background: white;
+}
+
+.btn-agregar {
+  background-color: #8bc34a;
+  color: white;
+  border: none;
+  border-radius: 8px; /* igual que el buscador */
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  height: 42px; /* mismo alto que el input del buscador */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buscador {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 42px; /* igual que el botón */
+  width: 700px;
+}
+
+.buscador input {
+  border: none;
+  padding: 0.5rem;
+  outline: none;
+  width: 700px;
+  height: 100%;
+  font-size: 16px;
+}
+
+.buscador button {
+  background-color: #ccc;
+  border: none;
+  padding: 0 1rem;
+  height: 100%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

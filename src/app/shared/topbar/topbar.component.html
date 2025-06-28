@@ -1,0 +1,16 @@
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="menu-icon">
+      <i><img src="/icons/SECCION_MENU.png" alt="Menú" width="30" /></i>
+    </div>
+    <h2>{{ pageTitle() }}</h2>
+  </div>
+
+  <!-- Ícono con menú -->
+  <div class="topbar-icons" (click)="toggleMenu()">
+    <i><img src="/icons/SESION_PERSONA.png" alt="Usuario" width="24" /></i>
+    <div class="dropdown-menu" *ngIf="isMenuOpen">
+      <button (click)="logout()">Cerrar sesión</button>
+    </div>
+  </div>
+</header>

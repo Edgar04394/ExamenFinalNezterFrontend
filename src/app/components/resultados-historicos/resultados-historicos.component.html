@@ -1,0 +1,76 @@
+<div class="resultados-historicos-container">
+  <div class="header">
+    <h1 class="titulo">Resultados Históricos</h1>
+    <div class="examen-info">
+      <h2>{{ nombreExamen }}</h2>
+      <p>{{ descripcionExamen }}</p>
+      <p class="fecha">Realizado el: {{ formatearFecha(fechaAsignacion) }}</p>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Cargando resultados históricos...</p>
+  </div>
+
+  <div *ngIf="!loading && !error && isBrowser">
+    <div *ngIf="spiderData.length > 0">
+      <div class="chart-container">
+        <dx-polar-chart
+          id="chart"
+          [useSpiderWeb]="true"
+          title="Resultados por Competencia"
+          [dataSource]="spiderData"
+          [palette]="palette"
+          [margin]="{ top: 30, bottom: 30 }"
+          style="max-width: 600px; margin: 0 auto;"
+        >
+          <dxi-series
+            valueField="promedio"
+            name="Promedio"
+            argumentField="competencia"
+            color="#7c83fd"
+          ></dxi-series>
+          <dxo-common-series-settings type="line"></dxo-common-series-settings>
+          <dxo-export [enabled]="true"></dxo-export>
+          <dxo-tooltip [enabled]="true"></dxo-tooltip>
+        </dx-polar-chart>
+      </div>
+
+      <div class="resultados-detalle">
+        <h3>Detalle de Competencias</h3>
+        <div class="competencias-grid">
+          <div *ngFor="let item of spiderData" class="competencia-item">
+            <div class="competencia-header">
+              <div class="color-dot" [style.background-color]="getColorForCompetencia(item.competencia)"></div>
+              <h4>{{ item.competencia }}</h4>
+            </div>
+            <div class="competencia-valor">{{ item.promedio.toFixed(1) }}</div>
+            <div class="competencia-nivel">{{ getNivelCompetencia(item.promedio) }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div *ngIf="spiderData.length === 0" class="no-data-container">
+      <h3>No hay datos para mostrar</h3>
+      <p>No se encontraron resultados para este examen.</p>
+    </div>
+    
+    <div class="acciones">
+      <button class="btn-volver" (click)="volverAExamenes()">⬅️ Volver a Exámenes</button>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !error && !isBrowser" class="loading-container">
+    <p>Inicializando gráfica...</p>
+  </div>
+
+  <div *ngIf="error" class="error-container">
+    <div class="error-message">
+      <h3>Error</h3>
+      <p>{{ error }}</p>
+      <button class="btn-volver" (click)="volverAExamenes()">⬅️ Volver a Exámenes</button>
+    </div>
+  </div>
+</div> 

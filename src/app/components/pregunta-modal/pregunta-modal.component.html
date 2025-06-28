@@ -1,0 +1,14 @@
+<div class="modal-backdrop">
+    <div class="modal-content">
+        <h2>{{ pregunta ? 'Editar Pregunta' : 'Agregar Pregunta' }}</h2>
+        <form (ngSubmit)="guardar()">
+            <label>Texto de la Pregunta</label>
+            <input type="text" [(ngModel)]="preguntaForm.textoPregunta" name="textoPregunta" required />
+
+            <div class="botones">
+                <button type="button" class="cancelar" (click)="cerrarModal()">Cancelar</button>
+                <button type="submit" class="guardar">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>

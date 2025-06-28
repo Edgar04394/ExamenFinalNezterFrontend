@@ -1,0 +1,91 @@
+<div class="examen-container" *ngIf="!loading">
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <h2>Examen</h2>
+      <div class="tiempo-restante">
+        <span>Tiempo restante para realizar el examen:</span>
+        <span class="tiempo">{{ tiempoFormateado }}</span>
+      </div>
+      <div class="leyenda-section">
+        <h3>Leyenda de Competencias</h3>
+        <ul class="leyenda-colores">
+          <li *ngFor="let clasif of clasificaciones">
+            <span class="color-dot" [style.background]="getColorCode(clasif.color)"></span>
+            {{ clasif.nombre }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="examen-main">
+    <div class="examen-card">
+      <div *ngIf="!examenFinalizado">
+        <div *ngFor="let pregunta of preguntas; let i = index" class="pregunta-block">
+          <div class="pregunta-titulo">
+            <b>{{ i + 1 }}.- {{ pregunta.textoPregunta }}</b>
+          </div>
+          <div class="respuestas-list">
+            <div *ngFor="let respuesta of respuestasPorPregunta[pregunta.idPregunta]" class="respuesta-item">
+              <label class="respuesta-label">
+                <input type="radio"
+                       [name]="'pregunta_' + pregunta.idPregunta"
+                       [value]="respuesta.idRespuesta"
+                       [checked]="respuestasSeleccionadas[pregunta.idPregunta] === respuesta.idRespuesta"
+                       (change)="seleccionarRespuesta(pregunta.idPregunta, respuesta.idRespuesta)"
+                       [disabled]="examenFinalizado" />
+                <span class="color-dot" [style.background]="getColorClasificacion(respuesta.idClasificacion)"></span>
+                {{ respuesta.textoRespuesta }}
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="acciones">
+          <button type="button" class="btn-guardar" (click)="finalizarExamen()" [disabled]="examenFinalizado">Guardar</button>
+          <button type="button" class="btn-cancelar" (click)="cancelar()" [disabled]="examenFinalizado">Cancelar</button>
+        </div>
+      </div>
+      
+      <!-- Resultados del examen -->
+      <div *ngIf="examenFinalizado" class="resultados-section">
+        <div class="resultados-header">
+          <h3>¡Examen completado!</h3>
+          <p>Tus respuestas han sido guardadas. Aquí están tus resultados:</p>
+        </div>
+        
+        <div *ngIf="spiderData.length > 0" class="grafica-container">
+          <dx-polar-chart
+            id="chart"
+            [useSpiderWeb]="true"
+            title="Resultados por Competencia"
+            [dataSource]="spiderData"
+            [margin]="{ top: 30, bottom: 30 }"
+            style="max-width: 600px; margin: 0 auto;"
+          >
+            <dxi-series
+              valueField="promedio"
+              name="Promedio"
+              argumentField="competencia"
+              color="#7c83fd"
+            ></dxi-series>
+            <dxo-common-series-settings type="line"></dxo-common-series-settings>
+            <dxo-export [enabled]="true"></dxo-export>
+            <dxo-tooltip [enabled]="true"></dxo-tooltip>
+          </dx-polar-chart>
+        </div>
+        
+        <div *ngIf="error" class="error-message">
+          <p>{{ error }}</p>
+        </div>
+        
+        <div *ngIf="spiderData.length === 0 && !error && !loading" class="no-data-message">
+          <p>No se encontraron datos para mostrar en la gráfica.</p>
+        </div>
+        
+        <div class="acciones-resultados">
+          <button type="button" class="btn-volver" (click)="volverAExamenes()">⬅️ Regresar a Exámenes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="loading" class="loading-msg">Cargando examen...</div>

@@ -1,0 +1,65 @@
+<div class="admin-dashboard">
+    <div class="main-content">
+
+        <search tipo="respuesta" (agregar)="abrirModal()" (buscar)="filtrarRespuestas($event)"></search>
+
+        <respuesta-modal *ngIf="modalVisible" [visible]="modalVisible" [respuesta]="respuestaEditando"
+            (cerrar)="cerrarModal()" (guardarRespuesta)="guardarRespuesta($event)">
+        </respuesta-modal>
+
+        <main class="content">
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">#</th>
+                            <th style="width: 65%;">Texto Respuesta</th>
+                            <th style="width: 10%;">Valor</th>
+                            <th style="width: 20%;">Acciones</th>
+                        </tr>
+                    </thead>
+                </table>
+
+                <div class="table-scroll">
+                    <table class="data-table">
+                        <tbody>
+                            <tr *ngFor="let respuesta of paginatedRespuestas; let i = index">
+                                <td style="width: 5%">{{ ((currentPage - 1) * rowsPerPage) + i + 1 }}</td>
+                                <td style="width: 65%">{{ respuesta.textoRespuesta }}</td>
+                                <td style="width: 10%">{{ respuesta.valor }}</td>
+                                <td style="width: 20%" class="acciones">
+                                    <button class="edit" (click)="editarRespuesta(respuesta)"
+                                        matTooltip="Editar">✏️</button>
+                                    <button class="delete" (click)="eliminarRespuesta(respuesta.idRespuesta)"
+                                        matTooltip="Eliminar">🗑️</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination">
+                    <div class="pagination-info">
+                        <span>Filas por página</span>
+                        <select class="rows-select" [(ngModel)]="rowsPerPage" (change)="cambiarPagina(1)">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
+                    <div class="pagination-controls">
+                        <span class="page-info">{{ mostrarRango() }} de {{ respuestas.length }}</span>
+                        <button class="page-btn" (click)="anteriorPagina()" [disabled]="currentPage === 1">◀</button>
+                        <button class="page-btn" (click)="siguientePagina()"
+                            [disabled]="currentPage >= totalPaginas()">▶</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="volver-contenedor">
+                <button class="btn-volver" (click)="volverAPreguntas()">⬅️ Volver a preguntas</button>
+            </div>
+
+        </main>
+    </div>
+</div>

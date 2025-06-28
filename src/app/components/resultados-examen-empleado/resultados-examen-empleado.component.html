@@ -1,0 +1,58 @@
+<div class="resultados-container">
+  <h1 class="titulo">¡Gracias por realizar el examen!</h1>
+
+  <div *ngIf="loading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Cargando resultados...</p>
+  </div>
+
+  <div *ngIf="!loading && !error && isBrowser">
+    <div *ngIf="spiderData.length > 0">
+      <dx-polar-chart
+        id="chart"
+        [useSpiderWeb]="true"
+        title="Resultados por Competencia"
+        [dataSource]="spiderData"
+        [palette]="palette"
+        [margin]="{ top: 30, bottom: 30 }"
+        style="max-width: 600px; margin: 0 auto;"
+      >
+        <dxi-series
+          valueField="promedio"
+          name="Promedio"
+          argumentField="competencia"
+          color="#7c83fd"
+        ></dxi-series>
+        <dxo-common-series-settings type="line"></dxo-common-series-settings>
+        <dxo-export [enabled]="true"></dxo-export>
+        <dxo-tooltip [enabled]="true"></dxo-tooltip>
+      </dx-polar-chart>
+    </div>
+    
+    <div *ngIf="spiderData.length === 0" class="no-data-container">
+      <h3>No hay datos para mostrar</h3>
+      <p>No se encontraron resultados para este examen.</p>
+      <button class="btn-debug" (click)="mostrarDebugInfo()">🔍 Ver Debug Info</button>
+    </div>
+    
+    <div class="acciones">
+      <button class="btn-volver" (click)="volverAExamenes()">⬅️ Volver a Exámenes</button>
+      <button class="btn-debug" (click)="mostrarDebugInfo()">🔍 Debug Info</button>
+      <button class="btn-diagnostico" (click)="ejecutarDiagnostico()">🔧 Ejecutar Diagnóstico</button>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !error && !isBrowser" class="loading-container">
+    <p>Inicializando gráfica...</p>
+  </div>
+
+  <div *ngIf="error" class="error-container">
+    <div class="error-message">
+      <h3>Error</h3>
+      <p>{{ error }}</p>
+      <button class="btn-debug" (click)="mostrarDebugInfo()">🔍 Ver Debug Info</button>
+      <button class="btn-diagnostico" (click)="ejecutarDiagnostico()">🔧 Ejecutar Diagnóstico</button>
+      <button class="btn-volver" (click)="volverAExamenes()">⬅️ Volver a Exámenes</button>
+    </div>
+  </div>
+</div>

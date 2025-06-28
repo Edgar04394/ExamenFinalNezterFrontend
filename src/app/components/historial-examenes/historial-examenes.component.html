@@ -1,0 +1,103 @@
+<div class="historial-container">
+  <div class="header">
+    <h1 class="titulo">Historial de Exámenes</h1>
+    <p class="subtitulo">Consulta los resultados de todos los exámenes que has realizado</p>
+  </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Cargando historial de exámenes...</p>
+  </div>
+
+  <div *ngIf="!loading && !error && isBrowser">
+    <div *ngIf="examenesUnicos.length > 0" class="content">
+      <!-- Lista de exámenes -->
+      <div class="examenes-lista">
+        <h3>Exámenes Realizados</h3>
+        <div class="examenes-grid">
+          <div *ngFor="let examen of examenesUnicos" 
+               class="examen-card" 
+               [class.seleccionado]="examenSeleccionado === examen"
+               (click)="seleccionarExamen(examen)">
+            <div class="examen-header">
+              <h4>{{ examen.nombreExamen }}</h4>
+              <span class="fecha">{{ formatearFecha(examen.fechaAsignacion) }}</span>
+            </div>
+            <p class="descripcion">{{ examen.descripcionExamen }}</p>
+            <div class="competencias-count">
+              <span>{{ examen.competencias.length }} competencias evaluadas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resultados del examen seleccionado -->
+      <div *ngIf="examenSeleccionado" class="resultados-section">
+        <div class="resultados-header">
+          <h3>Resultados: {{ examenSeleccionado.nombreExamen }}</h3>
+          <p>Realizado el: {{ formatearFecha(examenSeleccionado.fechaAsignacion) }}</p>
+        </div>
+
+        <div *ngIf="spiderData.length > 0" class="grafica-container">
+          <dx-polar-chart
+            id="chart"
+            [useSpiderWeb]="true"
+            title="Resultados por Competencia"
+            [dataSource]="spiderData"
+            [palette]="palette"
+            [margin]="{ top: 30, bottom: 30 }"
+            style="max-width: 600px; margin: 0 auto;"
+          >
+            <dxi-series
+              valueField="promedio"
+              name="Promedio"
+              argumentField="competencia"
+              color="#7c83fd"
+            ></dxi-series>
+            <dxo-common-series-settings type="line"></dxo-common-series-settings>
+            <dxo-export [enabled]="true"></dxo-export>
+            <dxo-tooltip [enabled]="true"></dxo-tooltip>
+          </dx-polar-chart>
+        </div>
+
+        <div class="competencias-detalle">
+          <h4>Detalle de Competencias</h4>
+          <div class="competencias-grid">
+            <div *ngFor="let item of spiderData" class="competencia-item">
+              <div class="competencia-header">
+                <div class="color-dot" [style.background-color]="getColorForCompetencia(item.competencia)"></div>
+                <h5>{{ item.competencia }}</h5>
+              </div>
+              <div class="competencia-valor">{{ item.promedio.toFixed(1) }}</div>
+              <div class="competencia-nivel">{{ getNivelCompetencia(item.promedio) }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!examenSeleccionado" class="seleccionar-msg">
+        <p>Selecciona un examen de la lista para ver sus resultados</p>
+      </div>
+    </div>
+
+    <div *ngIf="examenesUnicos.length === 0" class="no-data-container">
+      <h3>No hay exámenes realizados</h3>
+      <p>Aún no has completado ningún examen.</p>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !error && !isBrowser" class="loading-container">
+    <p>Inicializando historial...</p>
+  </div>
+
+  <div *ngIf="error" class="error-container">
+    <div class="error-message">
+      <h3>Error</h3>
+      <p>{{ error }}</p>
+    </div>
+  </div>
+
+  <div class="acciones">
+    <button class="btn-volver" (click)="volverAExamenes()">⬅️ Volver a Exámenes</button>
+  </div>
+</div>

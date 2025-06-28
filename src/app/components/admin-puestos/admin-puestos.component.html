@@ -1,0 +1,58 @@
+<div class="admin-dashboard">
+  <div class="main-content">
+
+    <search tipo="puesto" (agregar)="abrirModal()" (buscar)="filtrarPuestos($event)"></search>
+
+    <puesto-modal *ngIf="modalVisible" [visible]="modalVisible" [puesto]="puestoEditando" (cerrar)="cerrarModal()"
+      (guardar)="agregarPuesto($event)">
+    </puesto-modal>
+
+    <main class="content">
+      <div class="table-container">
+        <!-- Encabezado fijo -->
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 5%;">#</th>
+              <th style="width: 5%;">Puestos</th>
+              <th style="width: 5%;">Acciones</th>
+            </tr>
+          </thead>
+        </table>
+
+        <!-- Scroll solo en los datos -->
+        <div class="table-scroll">
+          <table class="data-table">
+            <tbody>
+              <tr *ngFor="let puesto of paginatedPuestos; let i = index">
+                <td style="width: 5%;">{{ ((currentPage - 1) * rowsPerPage) + i + 1 }}</td>
+                <td style="width: 5%;">{{ puesto.puesto }}</td>
+                <td style="width: 5%;" class="acciones">
+                  <button class="edit" (click)="editarPuesto(puesto)" matTooltip="Editar puesto">✏️</button>
+                  <button class="delete" (click)="eliminarPuesto(puesto.idPuesto)" matTooltip="Eliminar puesto">🗑️</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="pagination">
+          <div class="pagination-info">
+            <span>Filas por página</span>
+            <select class="rows-select" [(ngModel)]="rowsPerPage" (change)="cambiarPagina(1)">
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+            </select>
+          </div>
+          <div class="pagination-controls">
+            <span class="page-info">{{ mostrarRango() }} de {{ puestos.length }}</span>
+            <button class="page-btn" (click)="anteriorPagina()" [disabled]="currentPage === 1">◀</button>
+            <button class="page-btn" (click)="siguientePagina()" [disabled]="currentPage >= totalPaginas()">▶</button>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>

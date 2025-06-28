@@ -1,0 +1,53 @@
+<div class="admin-dashboard">
+    <div class="main-content">
+        <search></search>
+
+        <main class="content">
+            <div class="table-container">
+                <table class="data-table scrollable-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">#</th>
+                            <th style="width: 30%;">Nombre del Examen</th>
+                            <th style="width: 35%;">Descripción</th>
+                            <th style="width: 15%;">Tiempo Límite</th>
+                            <th style="width: 15%;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let examen of paginatedExamenes; let i = index">
+                            <td style="width: 5%;">{{ ((currentPage - 1) * rowsPerPage) + i + 1 }}</td>
+                            <td style="width: 30%;">{{ examen.nombre_examen }}</td>
+                            <td style="width: 35%;">{{ examen.descripcion }}</td>
+                            <td style="width: 15%;">{{ examen.tiempoLimite }}</td>
+                            <td style="width: 15%;" class="acciones">
+                                <button class="responder" title="Responder"
+                                    (click)="responderExamen(examen)" matTooltip="Responder examen">✏️</button>
+                                <button class="ver-resultados" title="Ver resultados"
+                                    (click)="verResultados(examen)" matTooltip="Ver resultados">🔍</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Paginación -->
+            <div class="pagination">
+                <div class="pagination-info">
+                    <span>Filas por página</span>
+                    <select class="rows-select" [(ngModel)]="rowsPerPage" (change)="cambiarPagina(1)">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+                <div class="pagination-controls">
+                    <span class="page-info">{{ mostrarRango() }} de {{ examenes.length }}</span>
+                    <button class="page-btn" (click)="anteriorPagina()" [disabled]="currentPage === 1">◀</button>
+                    <button class="page-btn" (click)="siguientePagina()"
+                        [disabled]="currentPage >= totalPaginas()">▶</button>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>

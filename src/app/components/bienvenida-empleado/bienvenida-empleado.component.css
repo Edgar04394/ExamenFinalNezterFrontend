@@ -1,0 +1,42 @@
+.empleado-dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  min-height: calc(100vh - 60px);
+}
+
+/* Main Content */
+.main-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+/* Content */
+.content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.main-logo {
+  width: 120px;
+  margin-bottom: 20px;
+}
+
+.content h1 {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.content p {
+  max-width: 700px;
+  line-height: 1.6;
+  font-size: 16px;
+}

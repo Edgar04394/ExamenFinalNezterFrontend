@@ -1,0 +1,77 @@
+<div class="admin-dashboard">
+    <div class="main-content">
+
+        <!-- Componente de búsqueda -->
+        <search tipo="examen" (agregar)="abrirModal()" (buscar)="filtrarExamenes($event)"></search>
+
+        <!-- Modal para crear/editar examen -->
+        <examen-modal *ngIf="modalVisible" [visible]="modalVisible" [examen]="examenEditando" (cerrar)="cerrarModal()"
+            (guardar)="guardarExamen($event)">
+        </examen-modal>
+
+        <!-- Modal para asignar examen -->
+        <asignar-examen-modal *ngIf="modalAsignarVisible" [visible]="modalAsignarVisible" [empleados]="empleados"
+            (cerrar)="cerrarModalAsignar()" (asignar)="asignarExamenAEmpleados($event)">
+        </asignar-examen-modal>
+
+        <main class="content">
+            <div class="table-container">
+
+                <!-- Encabezado fijo -->
+                <table class="data-table header-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">#</th>
+                            <th style="width: 25%;">Título</th>
+                            <th style="width: 35%;">Descripción</th>
+                            <th style="width: 15%;">Tiempo Límite</th>
+                            <th style="width: 20%;">Acciones</th>
+                        </tr>
+                    </thead>
+                </table>
+
+                <!-- Tabla de datos con scroll -->
+                <div class="table-scroll">
+                    <table class="data-table body-table">
+                        <tbody>
+                            <tr *ngFor="let examen of paginatedExamenes; let i = index">
+                                <td style="width: 5%;">{{ ((currentPage - 1) * rowsPerPage) + i + 1 }}</td>
+                                <td style="width: 25%;">{{ examen.titulo }}</td>
+                                <td style="width: 35%;">{{ examen.descripcion }}</td>
+                                <td style="width: 15%;">{{ examen.tiempoLimite }}</td>
+                                <td style="width: 20%;" class="acciones">
+                                    <button class="edit" matTooltip="Editar examen"
+                                        (click)="editarExamen(examen)">✏️</button>
+                                    <button class="delete" matTooltip="Eliminar examen"
+                                        (click)="eliminarExamen(examen.idExamen)">🗑️</button>
+                                    <button class="ver_preguntas" matTooltip="Ver preguntas"
+                                        (click)="verPreguntas(examen.idExamen)">👁️</button>
+                                    <button class="asignar" matTooltip="Asignar examen"
+                                        (click)="abrirModalAsignar(examen.idExamen)">📝</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Paginación -->
+            <div class="pagination">
+                <div class="pagination-info">
+                    <span>Filas por página</span>
+                    <select class="rows-select" [(ngModel)]="rowsPerPage" (change)="cambiarPagina(1)">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+                <div class="pagination-controls">
+                    <span class="page-info">{{ mostrarRango() }} de {{ examenes.length }}</span>
+                    <button class="page-btn" (click)="anteriorPagina()" [disabled]="currentPage === 1">◀</button>
+                    <button class="page-btn" (click)="siguientePagina()"
+                        [disabled]="currentPage >= totalPaginas()">▶</button>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>

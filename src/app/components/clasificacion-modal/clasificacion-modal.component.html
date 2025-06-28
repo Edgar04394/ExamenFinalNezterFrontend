@@ -1,0 +1,22 @@
+<div class="modal-backdrop">
+    <div class="modal-content">
+        <h2>{{ clasificacion ? 'Editar Clasificación' : 'Agregar Clasificación' }}</h2>
+        <form (ngSubmit)="guardarClasificacion()">
+            <label>Nombre</label>
+            <input type="text" [(ngModel)]="clasificacionForm.nombre" name="nombre" required />
+
+            <label>Color</label>
+            <select [(ngModel)]="clasificacionForm.color" name="color" required>
+                <option value="" disabled selected>Selecciona un color</option>
+                <option *ngFor="let color of coloresDisponibles" [value]="color.nombre">
+                    {{ color.nombre }}
+                </option>
+            </select>
+
+            <div class="botones">
+                <button type="button" class="cancelar" (click)="cerrarModal()">Cancelar</button>
+                <button type="submit" class="guardar">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>

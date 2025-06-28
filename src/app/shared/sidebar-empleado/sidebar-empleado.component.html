@@ -1,0 +1,32 @@
+<aside class="sidebar">
+    <ul class="sidebar__list">
+        <a [routerLink]="['/empleado-dashboard']">
+            <li class="sidebar__element">
+                <img src="/images/NEZTER_CASA.png" class="sidebar__icon sidebar__icon--logo" />
+                <div class="sidebar__hide">
+                    <p class="sidebar__logo">NEZTER</p>
+                </div>
+            </li>
+        </a>
+
+        <a [routerLink]="['/empleado-examenes']">
+            <li class="sidebar__element">
+                <img src="/icons/SECCION_EXAMENES.png" class="sidebar__icon" />
+
+                <div class="sidebar__hide">
+                    <p class="sidebar__text">Examenes</p>
+                </div>
+            </li>
+        </a>
+
+        <a [routerLink]="['/historial-examenes']">
+            <li class="sidebar__element">
+                <img src="/icons/CLASIFICACIONES.png" class="sidebar__icon" />
+
+                <div class="sidebar__hide">
+                    <p class="sidebar__text">Ver Resultados</p>
+                </div>
+            </li>
+        </a>
+    </ul>
+</aside>

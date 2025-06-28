@@ -1,0 +1,26 @@
+<div class="modal-backdrop">
+  <div class="modal-content">
+    <h2>{{ respuesta ? 'Editar Respuesta' : 'Agregar Respuesta' }}</h2>
+
+    <form (ngSubmit)="guardar()">
+      <label>Texto de la Respuesta</label>
+      <input type="text" [(ngModel)]="respuestaForm.textoRespuesta" name="textoRespuesta" required placeholder="Escribe la respuesta..." />
+
+      <label>Valor</label>
+      <input type="number" [(ngModel)]="respuestaForm.valor" name="valor" min="0" max="100" required />
+
+      <label>Clasificación</label>
+      <select [(ngModel)]="respuestaForm.idClasificacion" name="idClasificacion" required>
+        <option value="0" disabled>Selecciona una clasificación</option>
+        <option *ngFor="let clasificacion of clasificaciones" [value]="clasificacion.idClasificacion">
+          {{ clasificacion.nombre }}
+        </option>
+      </select>
+
+      <div class="botones">
+        <button type="button" class="cancelar" (click)="cerrarModal()">Cancelar</button>
+        <button type="submit" class="guardar">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>

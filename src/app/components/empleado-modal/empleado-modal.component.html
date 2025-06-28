@@ -1,0 +1,42 @@
+<div class="modal-backdrop">
+  <div class="modal-content">
+    <h2>{{ modoEdicion ? 'Editar Empleado' : 'Agregar Empleado' }}</h2>
+    <form (ngSubmit)="guardarEmpleado()">
+      <label>Nombre</label>
+      <input type="text" [(ngModel)]="empleadoForm.nombre" name="nombre" (input)="onNombreApellidoChange()" required />
+      <label>Apellido Paterno</label>
+      <input type="text" [(ngModel)]="empleadoForm.apellidoPaterno" name="apellidoPaterno" (input)="onNombreApellidoChange()" required />
+      <label>Apellido Materno</label>
+      <input type="text" [(ngModel)]="empleadoForm.apellidoMaterno" name="apellidoMaterno" required />
+      <label>Fecha de Nacimiento</label>
+      <input type="date" [(ngModel)]="empleadoForm.fechaNacimiento" name="fechaNacimiento" required />
+      <label>Fecha de Inicio de Contrato</label>
+      <input type="date" [(ngModel)]="empleadoForm.fechaInicioContrato" name="fechaInicioContrato" required />
+      <label>Puesto</label>
+      <select [(ngModel)]="empleadoForm.idPuesto" name="puesto" required>
+        <option value="" disabled selected>Seleccione un puesto</option>
+        <option *ngFor="let p of puestos" [value]="p.idPuesto">{{ p.puesto }}</option>
+      </select>
+
+      <!-- Campos de usuario solo en modo creación -->
+      <div *ngIf="!modoEdicion">
+        <label>Usuario</label>
+        <div class="input-group">
+          <input type="text" [(ngModel)]="empleadoForm.usuario" name="usuario" required />
+          <button type="button" class="btn-generar" (click)="generarUsuarioAutomatico()">Generar</button>
+        </div>
+        
+        <label>Contraseña</label>
+        <div class="input-group">
+          <input type="text" [(ngModel)]="empleadoForm.contrasena" name="contrasena" required />
+          <button type="button" class="btn-generar" (click)="generarContrasenaAutomatica()">Generar</button>
+        </div>
+      </div>
+
+      <div class="botones">
+        <button type="button" class="cancelar" (click)="cerrar.emit()">Cancelar</button>
+        <button type="submit" class="guardar">{{ modoEdicion ? 'Actualizar' : 'Guardar' }}</button>
+      </div>
+    </form>
+  </div>
+</div>

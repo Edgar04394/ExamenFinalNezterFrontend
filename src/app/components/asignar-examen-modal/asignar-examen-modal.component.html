@@ -1,0 +1,22 @@
+<div *ngIf="visible" class="modal-backdrop">
+    <div class="modal-content custom-modal">
+        <h2 class="modal-title">Agregar Empleado</h2>
+
+        <form>
+            <div *ngFor="let empleado of empleados" class="empleado-item">
+                <label class="checkbox-label">
+                    <input type="checkbox" [(ngModel)]="empleadosSeleccionados[empleado.codigoEmpleado]"
+                        name="empleado_{{empleado.codigoEmpleado}}" />
+                    <span class="custom-checkbox"></span>
+                    <span class="empleado-nombre">{{ empleado.nombre }} {{ empleado.apellidoPaterno }} {{
+                        empleado.apellidoMaterno }}</span>
+                </label>
+            </div>
+
+            <div class="modal-actions custom-actions">
+                <button type="button" class="btn-cancelar" (click)="cerrarModal()">Cancelar</button>
+                <button type="button" class="btn-asignar" (click)="asignarExamen()">Asignar</button>
+            </div>
+        </form>
+    </div>
+</div>

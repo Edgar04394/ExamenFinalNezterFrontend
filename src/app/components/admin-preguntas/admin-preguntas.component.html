@@ -1,0 +1,69 @@
+<div class="admin-dashboard">
+    <div class="main-content">
+        <!-- Buscador y botón agregar -->
+        <search tipo="pregunta" (agregar)="abrirModal()" (buscar)="filtrarPreguntas($event)"></search>
+
+        <!-- Modal -->
+        <pregunta-modal *ngIf="modalVisible" [visible]="modalVisible" [pregunta]="preguntaEditando"
+            (cerrar)="cerrarModal()" (guardarPregunta)="guardarPregunta($event)">
+        </pregunta-modal>
+
+        <main class="content">
+            <div class="table-container">
+                <!-- Encabezado fijo -->
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">#</th>
+                            <th style="width: 70%;">Pregunta</th>
+                            <th style="width: 10%;">ID Examen</th>
+                            <th style="width: 15%;">Acciones</th>
+                        </tr>
+                    </thead>
+                </table>
+
+                <!-- Scroll solo en los datos -->
+                <div class="table-scroll">
+                    <table class="data-table">
+                        <tbody>
+                            <tr *ngFor="let pregunta of paginatedPreguntas; let i = index">
+                                <td style="width: 5%;">{{ ((currentPage - 1) * rowsPerPage) + i + 1 }}</td>
+                                <td style="width: 70%;">{{ pregunta.textoPregunta }}</td>
+                                <td style="width: 10%;">{{ pregunta.idExamen }}</td>
+                                <td style="width: 15%;" class="acciones">
+                                    <button class="edit" (click)="editarPregunta(pregunta)"
+                                        matTooltip="Editar">✏️</button>
+                                    <button class="delete" (click)="eliminarPregunta(pregunta.idPregunta)"
+                                        matTooltip="Eliminar">🗑️</button>
+                                    <button class="ver_respuestas" (click)="verRespuestas(pregunta)"
+                                        matTooltip="Ver respuestas">👁️</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Paginación -->
+                <div class="pagination">
+                    <div class="pagination-info">
+                        <span>Filas por página</span>
+                        <select class="rows-select" [(ngModel)]="rowsPerPage" (change)="cambiarPagina(1)">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
+                    <div class="pagination-controls">
+                        <span class="page-info">{{ mostrarRango() }} de {{ preguntas.length }}</span>
+                        <button class="page-btn" (click)="anteriorPagina()" [disabled]="currentPage === 1">◀</button>
+                        <button class="page-btn" (click)="siguientePagina()"
+                            [disabled]="currentPage >= totalPaginas()">▶</button>
+                    </div>
+                </div>
+            </div>
+            <div class="volver-contenedor">
+                <button class="btn-volver" (click)="volverAExamenes()">⬅️ Volver a exámenes</button>
+            </div>
+        </main>
+    </div>
+</div>

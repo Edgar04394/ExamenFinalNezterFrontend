@@ -1,0 +1,59 @@
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  padding: 0 20px;
+  border-bottom: 1px solid #ddd;
+  background: #fff;
+  font-weight: bold;
+}
+
+.menu-icon {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+}
+
+.topbar h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topbar-icons {
+  cursor: pointer;
+}
+
+
+.dropdown-menu {
+  position: absolute;
+  right: 20px;
+  top: 60px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  z-index: 1000;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu button {
+  background: none;
+  border: none;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 5px 10px;
+  width: 100%;
+  text-align: left;
+}
+
+.dropdown-menu button:hover {
+  background-color: #f0f0f0;
+}

@@ -1,0 +1,13 @@
+<div class="modal-backdrop">
+  <div class="modal-content">
+    <h2>Agregar Puesto</h2>
+    <form (ngSubmit)="guardarPuesto()">
+      <label>Nombre del Puesto</label>
+      <input type="text" [(ngModel)]="nombrePuesto" name="nombrePuesto" required />
+      <div class="botones">
+        <button type="button" class="cancelar" (click)="cerrarModal()">Cancelar</button>
+        <button type="submit" class="guardar">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>

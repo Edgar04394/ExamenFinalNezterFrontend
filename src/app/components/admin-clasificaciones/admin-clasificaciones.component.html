@@ -1,0 +1,65 @@
+<div class="admin-dashboard">
+    <div class="main-content">
+        <search tipo="clasificacion" (agregar)="abrirModal()" (buscar)="filtrarClasificaciones($event)"></search>
+
+        <clasificacion-modal *ngIf="modalVisible" [visible]="modalVisible" [clasificacion]="clasificacionEditando"
+            (cerrar)="cerrarModal()" (guardar)="agregarClasificacion($event)">
+        </clasificacion-modal>
+
+        <main class="content">
+            <div class="table-container">
+                <!-- Encabezado fijo -->
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">#</th>
+                            <th style="width: 5%;">Clasificación</th>
+                            <th style="width: 5%;">Color</th>
+                            <th style="width: 5%;">Acciones</th>
+                        </tr>
+                    </thead>
+                </table>
+
+                <!-- Scroll solo en los datos -->
+                <div class="table-scroll">
+                    <table class="data-table">
+                        <tbody>
+                            <tr *ngFor="let clasificacion of paginatedClasificaciones; let i = index">
+                                <td style="width: 5%;">{{ ((currentPage - 1) * rowsPerPage) + i + 1 }}</td>
+                                <td style="width: 5%;">{{ clasificacion.nombre }}</td>
+                                <td style="width: 5%;">
+                                    <span class="color-circle"
+                                        [style.backgroundColor]="getColorCode(clasificacion.color)"></span>
+                                    {{ clasificacion.color }}
+                                </td>
+                                <td style="width: 5%;" class="acciones">
+                                    <button class="edit" (click)="editarClasificacion(clasificacion)" matTooltip="Editar clasificación">✏️</button>
+                                    <button class="delete"
+                                        (click)="eliminarClasificacion(clasificacion.idClasificacion)" matTooltip="Eliminar clasificación">🗑️</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Paginación -->
+                <div class="pagination">
+                    <div class="pagination-info">
+                        <span>Filas por página</span>
+                        <select class="rows-select" [(ngModel)]="rowsPerPage" (change)="cambiarPagina(1)">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                        </select>
+                    </div>
+                    <div class="pagination-controls">
+                        <span class="page-info">{{ mostrarRango() }} de {{ clasificaciones.length }}</span>
+                        <button class="page-btn" (click)="anteriorPagina()" [disabled]="currentPage === 1">◀</button>
+                        <button class="page-btn" (click)="siguientePagina()"
+                            [disabled]="currentPage >= totalPaginas()">▶</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>

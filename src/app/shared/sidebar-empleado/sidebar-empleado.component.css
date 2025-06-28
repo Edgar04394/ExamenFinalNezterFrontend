@@ -1,0 +1,102 @@
+.sidebar {
+  background: linear-gradient(#f7f7f7, #e6e6e6);
+  background-image: url('/images/NEZTER_GRIS.png');
+  background-size: cover;
+  width: 80px;
+  height: 105vh;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  transition: width 0.3s ease;
+  overflow: hidden;
+  padding-top: 10px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar:hover {
+  width: 220px;
+}
+
+.sidebar__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.sidebar__element {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  color: #333;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar__element:hover:not(:has(.sidebar__icon--logo)) {
+  background-color: #ec8e37;
+  color: #fff;
+  cursor: pointer;
+}
+
+.sidebar__element:has(.sidebar__icon--logo) {
+  margin-bottom: 20px;
+}
+
+.sidebar__icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+  margin: 0; /* Asegúrate de que no hay margen */
+}
+
+.sidebar__icon--logo {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+}
+
+.sidebar__hide {
+  overflow: hidden;
+  white-space: nowrap;
+  margin-left: 15px;
+  /*opacity: 0;*/
+  transition: opacity 0.2s ease;
+  display: none; /* Cambia de opacity: 0 a display: none */
+  margin-left: 12px;
+}
+
+.sidebar:hover .sidebar__hide {
+  display: block; /* Cambia de opacity: 1 a display: block */
+  opacity: 1;
+}
+
+.sidebar__logo {
+   font-weight: bold; /* Forma semántica */
+   font-weight: 700;
+   font-size: x-large;
+}
+
+.sidebar__text {
+  font-size: 14px;
+  font-weight: 500;
+  color: inherit;
+  line-height: 1;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+}
+
+/* Cuando el sidebar está desplegado (hover), vuelve a la alineación original */
+.sidebar:hover .sidebar__element {
+  justify-content: flex-start;
+  padding: 10px 16px;
+}

@@ -1,0 +1,9 @@
+<div class="encabezado">
+    <div class="encabezado-inner">
+        <button class="btn-agregar" (click)="agregarElemento()">+ Agregar {{ tipo }}</button>
+        <div class="buscador">
+            <input type="text" [(ngModel)]="textoBusqueda" (input)="onBuscar()" placeholder="Buscar..." />
+            <button (click)="onBuscar()"><span>🔍</span></button>
+        </div>
+    </div>
+</div>

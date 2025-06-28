@@ -1,0 +1,66 @@
+<div class="admin-dashboard">
+    <div class="main-content">
+        <!-- Aquí colocas los componentes -->
+        <search tipo="empleado" (agregar)="abrirModal()" (buscar)="filtrarEmpleados($event)"></search>
+        <empleado-modal *ngIf="modalVisible" 
+            [visible]="modalVisible" 
+            [empleado]="empleadoEditando"
+            [modoEdicion]="modoEdicion"
+            (cerrar)="cerrarModal()" 
+            (guardar)="AgregarEmpleado($event)">
+        </empleado-modal>
+        <main class="content">
+            <div class="table-container">
+                <table class="data-table scrollable-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">#</th>
+                            <th style="width: 10%;">Nombres</th>
+                            <th style="width: 15%;">Apellido Paterno</th>
+                            <th style="width: 15%;">Apellido Materno</th>
+                            <th style="width: 15%;">Nacimiento</th>
+                            <th style="width: 15%;">Inicio Contrato</th>
+                            <th style="width: 10%;">Puesto</th>
+                            <th style="width: 10%;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let empleado of paginatedEmpleados; let i = index">
+                            <td style="width: 10%;">{{ ((currentPage - 1) * rowsPerPage) + i + 1 }}</td>
+                            <td style="width: 10%;">{{ empleado.nombre }}</td>
+                            <td style="width: 15%;">{{ empleado.apellidoPaterno }}</td>
+                            <td style="width: 15%;">{{ empleado.apellidoMaterno }}</td>
+                            <td style="width: 15%;">{{ empleado.fechaNacimiento | date: 'dd/MM/yy' }}</td>
+                            <td style="width: 15%;">{{ empleado.fechaInicioContrato | date: 'dd/MM/yy' }}</td>
+                            <td style="width: 10%;">{{ empleado.idPuesto }}</td>
+                            <td style="width: 10%;" class="acciones">
+                                <button class="edit" (click)="editarEmpleado(empleado)" matTooltip="Editar empleado">✏️</button>
+                                <button class="delete" (click)="eliminarEmpleado(empleado.codigoEmpleado)" matTooltip="Eliminar empleado">🗑️</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Paginación -->
+            <div class="pagination">
+                <div class="pagination-info">
+                    <span>Filas por página</span>
+                    <select class="rows-select" [(ngModel)]="rowsPerPage" (change)="cambiarPagina(1)">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+                <div class="pagination-controls">
+                    <span class="page-info">
+                        {{ mostrarRango() }} de {{ empleados.length }}
+                    </span>
+                    <button class="page-btn" (click)="anteriorPagina()" [disabled]="currentPage === 1">◀</button>
+                    <button class="page-btn" (click)="siguientePagina()"
+                        [disabled]="currentPage >= totalPaginas()">▶</button>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
