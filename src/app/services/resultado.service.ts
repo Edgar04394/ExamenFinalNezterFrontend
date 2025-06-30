@@ -38,14 +38,14 @@ export class ResultadoService {
 
   // Nuevo método para obtener resultados históricos
   obtenerResultadosHistoricos(codigoEmpleado: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/resultadosHistoricos/${codigoEmpleado}`, {
+    return this.http.post(`${this.apiUrl}/resultadosHistoricos`, codigoEmpleado, {
       headers: this.getAuthHeaders()
     });
   }
 
   // Método para obtener resultados por examen específico
   obtenerResultadosPorExamen(idExamen: number, codigoEmpleado: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/resultadosPorExamen/${idExamen}/${codigoEmpleado}`, {
+    return this.http.post(`${this.apiUrl}/resultadosPorExamen`, { idExamen, codigoEmpleado }, {
       headers: this.getAuthHeaders()
     });
   }

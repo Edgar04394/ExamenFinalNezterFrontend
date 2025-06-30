@@ -133,7 +133,7 @@ export class ResultadosExamenEmpleadoComponent implements OnInit {
       'Content-Type': 'application/json'
     });
 
-    this.http.get(`http://localhost:5054/api/Resultados/diagnostico/${this.idAsignacion}`, { headers })
+    this.http.post(`http://localhost:5054/api/Resultados/diagnostico`, this.idAsignacion, { headers })
       .subscribe({
         next: (data: any) => {
           console.log('🔧 Diagnóstico completado:', data);

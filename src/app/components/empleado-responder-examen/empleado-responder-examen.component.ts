@@ -173,7 +173,7 @@ export class EmpleadoResponderExamenComponent implements OnInit {
             
             // Esperar un momento para que la base de datos se actualice
             setTimeout(() => {
-              this.cargarResultados();
+              this.cargarResultadosYGuardarEnHistorial();
             }, 2000);
           }
         },
@@ -181,6 +181,58 @@ export class EmpleadoResponderExamenComponent implements OnInit {
           alert(`Error al guardar respuesta ${index + 1}: ${err.message}`);
         }
       });
+    });
+  }
+
+  cargarResultadosYGuardarEnHistorial() {
+    this.loading = true;
+    this.error = '';
+    
+    const requestData = { idAsignacion: this.idAsignacion };
+    
+    this.resultadoService.obtenerReporte(requestData).subscribe({
+      next: (data: any[]) => {
+        if (data && Array.isArray(data) && data.length > 0) {
+          this.spiderData = data.map((item, index) => {
+            return {
+              competencia: item.Competencia || item.competencia || `Competencia ${index + 1}`,
+              promedio: Number(item.Promedio || item.promedio || 0)
+            };
+          });
+          
+          // Automáticamente guardar en historial después de cargar los resultados
+          this.resultadoService.guardarEnHistorial(this.idAsignacion).subscribe({
+            next: (result: any) => {
+              console.log('Resultados guardados en historial exitosamente:', result);
+              this.loading = false;
+              
+              // Mostrar mensaje de éxito
+              if (result.success) {
+                console.log('Resultados guardados correctamente en el historial');
+              } else {
+                console.warn('Advertencia al guardar en historial:', result.mensaje);
+              }
+            },
+            error: (err: any) => {
+              console.error('Error al guardar en historial:', err);
+              this.loading = false;
+              
+              // Mostrar error al usuario pero no bloquear la funcionalidad
+              alert(`Advertencia: Los resultados se cargaron pero hubo un problema al guardarlos en el historial. Error: ${err.error?.mensaje || err.message || 'Error desconocido'}`);
+            }
+          });
+        } else {
+          this.error = 'No se encontraron resultados para este examen.';
+          this.spiderData = [];
+          this.loading = false;
+        }
+      },
+      error: (err) => {
+        console.error('Error al cargar los resultados:', err);
+        this.error = `Error al cargar los resultados: ${err.error?.mensaje || err.message || 'Error desconocido'}`;
+        this.loading = false;
+        this.spiderData = [];
+      }
     });
   }
 
@@ -215,23 +267,9 @@ export class EmpleadoResponderExamenComponent implements OnInit {
   }
 
   volverAExamenes() {
-    // Primero verificar si tenemos resultados para guardar
-    if (this.spiderData.length > 0) {
-      // Guardar resultados en el historial antes de eliminar la asignación
-      this.resultadoService.guardarEnHistorial(this.idAsignacion).subscribe({
-        next: (result: any) => {
-          // Ahora eliminar la asignación
-          this.eliminarAsignacionYRegresar();
-        },
-        error: (err: any) => {
-          alert('Error al guardar resultados en historial, pero continuando...');
-          // Continuar con la eliminación de la asignación
-          this.eliminarAsignacionYRegresar();
-        }
-      });
-    } else {
-      this.eliminarAsignacionYRegresar();
-    }
+    // Los resultados ya se guardaron automáticamente en el historial
+    // Solo eliminar la asignación y regresar
+    this.eliminarAsignacionYRegresar();
   }
 
   eliminarAsignacionYRegresar() {

@@ -31,7 +31,7 @@ export class AsignacionService {
   }
 
   eliminarAsignacion(idAsignacion: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/eliminarAsignacion/${idAsignacion}`, {
+    return this.http.post(`${this.apiUrl}/eliminarAsignacion`, idAsignacion, {
       headers: this.getAuthHeaders()
     });
   }

@@ -57,14 +57,25 @@ export class HistorialExamenesComponent implements OnInit {
     }
 
     this.resultadoService.obtenerResultadosHistoricos(codigoEmpleado).subscribe({
-      next: (data: any[]) => {
-        this.resultadosHistoricos = data;
+      next: (response: any) => {
+        // Manejar la nueva estructura de respuesta
+        if (response.success && response.resultados) {
+          this.resultadosHistoricos = response.resultados;
+        } else if (Array.isArray(response)) {
+          // Mantener compatibilidad con la estructura anterior
+          this.resultadosHistoricos = response;
+        } else {
+          this.error = 'Formato de respuesta inesperado del servidor.';
+          this.loading = false;
+          return;
+        }
         
         // Agrupar por examen
         this.agruparExamenes();
         this.loading = false;
       },
       error: (err) => {
+        console.error('Error al cargar resultados históricos:', err);
         this.error = 'Error al cargar los resultados históricos.';
         this.loading = false;
       }
